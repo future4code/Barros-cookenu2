@@ -1,7 +1,7 @@
 import { UserDataBase } from "../data/UserBaseDataBase";
 import { CustomError } from "../error/CustomError";
-import { EmailNotFound, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound } from "../error/userErrors";
-import { user, UserInputDTO, UserRole } from "../model/user";
+import { EmailNotFound, IdNotFound, invalidPassword, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
+import { loginDTO, user, UserInputDTO, userProfileDTO, UserRole } from "../model/user";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenGenerator } from "../services/TokenGenerator";
@@ -53,6 +53,69 @@ export class UserBusiness {
 
         }catch(error:any){
             throw new CustomError(400, error.message);
+        }
+    }
+
+    public login = async(input: loginDTO) =>{
+        try {
+            const {email, password} = input 
+            if(!email){
+                throw new EmailNotFound()
+            }
+
+            if(!password){
+                throw new PasswordNotFound()
+            }
+            
+            const user = await userDataBase.findUser(email)
+                if(!user) {
+                    throw new UserNotFound();
+                }
+            
+                const validPassword: boolean= await hashManager.compare(password, user.password)
+
+                if(!validPassword){
+                    throw new invalidPassword;    
+                }
+
+            const token = tokenGenerator.generateToken({id: user.id, role:user.role})
+            return token
+
+        } catch (error:any) {
+            throw new CustomError(400, error.message)
+        }
+    }
+
+    public UserProfile = async (input: userProfileDTO) =>{
+        try {
+            const {id, token} = input
+
+            if(!id){
+                throw new IdNotFound()
+            }
+
+            if(!token){
+                throw new TokenNotFound()
+            }
+
+            const data = tokenGenerator.tokenData(token)
+            
+            if(!data.id){
+                throw new Unauthorized()
+            }
+
+           const result = await userDataBase.UserProfile(id)
+           
+           if(!result){
+                throw new UserNotFound();
+                
+           }
+
+           return result
+
+        } catch (error: any) {
+            throw new CustomError(400, error.message)
+            
         }
     }
 }
