@@ -4,7 +4,10 @@ import { AuthenticationData } from "../model/user";
 export class TokenGenerator {
 
     public generateToken = ({id,role}: AuthenticationData) => {
-        const token = jwt.sign({id,role}, process.env.JWT_KEY as string, {expiresIn: "1h"});
+        const token = jwt.sign(
+            {id,role}, 
+            process.env.JWT_KEY as string, 
+            {expiresIn: "1h"});
         return token;
     }
 

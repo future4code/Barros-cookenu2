@@ -1,3 +1,4 @@
+-- Active: 1674225102411@@35.226.146.116@3306@jbl-4416204-felipe-alcantara
 
 CREATE TABLE IF NOT EXISTS Cookenu_users(
     id VARCHAR(255) PRIMARY KEY,

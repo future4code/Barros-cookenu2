@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-import { UserInputDTO } from "../model/user";
+import { loginDTO, UserInputDTO, userProfileDTO } from "../model/user";
 
 const userBusiness = new UserBusiness()
 
@@ -22,4 +22,35 @@ export class UserController {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     }
+
+   public login = async (req: Request, res: Response) => {
+        try {
+            
+            const input: loginDTO= {
+                email: req.body.email,
+                password: req.body.password
+            }
+
+        const token = await userBusiness.login(input)
+        res.status(200).send({message: "Logged in user!", token})
+
+        } catch (error: any) {
+        res.status(error.statusCode || 400).send(error.message || error.sqlMessage)        }
+   }
+
+   public UserProfile = async (req: Request, res: Response)=>{
+    try {
+
+        const input: userProfileDTO = {
+            id: req.params.id,
+            token: req.headers.authorization as string
+        }
+        const result = await userBusiness.UserProfile(input)
+        res.status(200).send(result[0])
+
+    } catch (error: any) {
+    res.status(error.statusCode || 400).send(error.message || error.sqlMessage)  
+        
+    }
+   }
 }

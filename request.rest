@@ -9,3 +9,19 @@ Content-Type: application/json
     "password": "devpleno123",
     "role": "ADMIN"
 }
+
+### Login
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    
+    "email": "felipe@labenu.com",
+    "password": "devpleno123"
+    
+}
+
+### UserProfile
+GET http://localhost:3003/user/profile/b249b95c-e855-420b-a57d-9ae661b42ee2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDliOTVjLWU4NTUtNDIwYi1hNTdkLTlhZTY2MWI0MmVlMiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NjY2NzA5MiwiZXhwIjoxNjc2NjcwNjkyfQ.0kZvw-FeCRaxX_xbXEtudFhZHzXSpZj0pcR79tKUhjQ
+    

@@ -14,5 +14,29 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
+    public findUser = async(email: string) => {
+        
+    try {
+        
+    const result = await UserDataBase.connection(this.userTable).select("*")
+    .where({email})
+    return result[0]
+    } catch (error: any) {
+        throw new CustomError(400, error.mesage)
+    } 
+}
+
+    public UserProfile = async (id: string) => {
+        try {
+         const result = await UserDataBase.connection(this.userTable).select("id", "name", "email")
+         .where({id})
+            return result
+        
+        } catch (error: any) {
+            throw new CustomError(400, error.message);
+            
+        }
+    }
+
 
 }

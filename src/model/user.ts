@@ -22,3 +22,14 @@ export interface UserInputDTO{
     password:string,
     role:string
 }
+
+export interface loginDTO{
+    email:string,
+    password:string,
+}
+
+export interface userProfileDTO{
+    id: string,
+    token:string
+}
+
