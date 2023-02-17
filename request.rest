@@ -1,2 +1,11 @@
+### Signup
 
+POST http://localhost:3003/user/signup
+Content-Type: application/json
 
+{
+    "name": "Felipe Alcantara",
+    "email": "felipe@labenu.com",
+    "password": "devpleno123",
+    "role": "ADMIN"
+}
