@@ -1,4 +1,4 @@
--- Active: 1674225102411@@35.226.146.116@3306@jbl-4416204-felipe-alcantara
+-- Active: 1674164268204@@35.226.146.116@3306@jbl-4416383-kayo-santos
 
 CREATE TABLE IF NOT EXISTS Cookenu_users(
     id VARCHAR(255) PRIMARY KEY,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Cookenu_recipe(
     description VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id VARCHAR(255),
-    FOREIGN KEY (author_id) REFERENCES Cookenu_users (id)
+    FOREIGN KEY (author_id) REFERENCES Cookenu_users(id)
 );
 
 CREATE TABLE IF NOT EXISTS Cookenu_friends(
