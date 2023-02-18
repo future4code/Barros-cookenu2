@@ -13,7 +13,7 @@ export class UserController {
                 password: req.body.password,
                 role: req.body.role
             }
-            
+           
             const token = await userBusiness.signup(input)
 
             res.status(200).send({message: "User Created!", token})

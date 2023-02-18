@@ -4,10 +4,10 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name": "Felipe Alcantara",
-    "email": "felipe@labenu.com",
-    "password": "devpleno123",
-    "role": "ADMIN"
+    "name": "Maria  do carmo",
+    "email": "maria@carmo.com",
+    "password": "maria123",
+    "role": "NORMAL"
 }
 
 ### Login
@@ -25,3 +25,29 @@ Content-Type: application/json
 GET http://localhost:3003/user/profile/b249b95c-e855-420b-a57d-9ae661b42ee2
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDliOTVjLWU4NTUtNDIwYi1hNTdkLTlhZTY2MWI0MmVlMiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NjY2NzA5MiwiZXhwIjoxNjc2NjcwNjkyfQ.0kZvw-FeCRaxX_xbXEtudFhZHzXSpZj0pcR79tKUhjQ
     
+
+
+### Create Recipe
+
+POST http://localhost:3003/recipe/recipe
+Content-Type: application/json
+
+{
+    "title": "Salada",
+    "description": "1 alface americana, 2 cenouras raladas, 1 beterraba ralada",
+    "authorId": "a6e4091e-e873-4af9-b980-2698493be97e"    
+}
+
+### Follow friend
+
+POST http://localhost:3003/friendship/follow
+Content-Type: application/json
+
+{
+    "user_1_id": "035ba2f5-f531-4de4-846b-75b80c815391",
+    "user_2_id": "b801734d-f8e7-4c17-8e2e-2b4bcfd4692f"    
+}
+
+
+### Feed
+GET http://localhost:3003/recipe/feed/b801734d-f8e7-4c17-8e2e-2b4bcfd4692f
