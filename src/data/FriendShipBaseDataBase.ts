@@ -14,5 +14,24 @@ export class FriendShipBaseDataBase extends BaseDatabase{
         }
     }
 
+    public getAllFriends = async () => {
+        try {
+           const result = await FriendShipBaseDataBase.connection(this.friendShipTable)
+           return result 
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
+        }
+    }
+
+    public unfollow = async (id:string) => {
+        try {
+            await FriendShipBaseDataBase.connection(this.friendShipTable)
+            .where({id})
+            .delete()            
+        } catch (error:any) {
+            throw new CustomError(400, error.message); 
+        }
+    }
+
 
 }

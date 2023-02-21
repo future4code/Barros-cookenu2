@@ -51,3 +51,23 @@ Content-Type: application/json
 
 ### Feed
 GET http://localhost:3003/recipe/feed/b801734d-f8e7-4c17-8e2e-2b4bcfd4692f
+
+
+### Get All Users
+GET http://localhost:3003/user/allusers
+
+
+
+
+### Get All Friendships
+GET http://localhost:3003/friendship/allfriendship
+
+
+### Delete Friendships
+
+DELETE http://localhost:3003/friendship/friendship/035ba2f5-f531-4de4-846b-75b80c815391
+Content-Type: application/json
+
+{
+    "user_2_id": "9bef762a-ebf6-48ab-a6c3-39d346a4e319"
+}

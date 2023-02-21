@@ -8,3 +8,4 @@ const userController = new UserController()
 userRouter.post('/signup', userController.signup);
 userRouter.post('/login', userController.login);
 userRouter.get('/profile/:id', userController.UserProfile)
+userRouter.get('/allusers', userController.getAllUsers)

@@ -118,4 +118,14 @@ export class UserBusiness {
             
         }
     }
+
+    public getAllUsers = async() => {
+        try {
+            const result = await userDataBase.getAllUsers()
+            return result
+        } catch (error:any) {
+            throw new CustomError(400, error.message)
+        }
+    }
+
 }

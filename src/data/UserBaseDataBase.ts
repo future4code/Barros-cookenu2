@@ -38,5 +38,15 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
+    public getAllUsers = async () => {
+        try {
+
+            const result = await UserDataBase.connection(this.userTable)
+            return result            
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
+        }
+    }
+
 
 }
