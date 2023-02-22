@@ -23,3 +23,15 @@ export class AuthorIdNotFound extends CustomError{
         super(404, "Author ID Not Found")
     }
 }
+
+export class RecipeNotFound extends CustomError{
+    constructor(){
+        super(404, "Recipe Not Found")
+    }
+}
+
+export class RecipeNotAuthor extends CustomError{
+    constructor(){
+        super(404, "You must be the author of this recipe to edit it.")
+    }
+}

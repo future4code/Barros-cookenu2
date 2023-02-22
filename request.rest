@@ -10,7 +10,7 @@ Content-Type: application/json
     "role": "NORMAL"
 }
 
-### Login
+### Login ADmin
 POST http://localhost:3003/user/login
 Content-Type: application/json
 
@@ -21,11 +21,23 @@ Content-Type: application/json
     
 }
 
-### UserProfile
-GET http://localhost:3003/user/profile/b249b95c-e855-420b-a57d-9ae661b42ee2
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyNDliOTVjLWU4NTUtNDIwYi1hNTdkLTlhZTY2MWI0MmVlMiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NjY2NzA5MiwiZXhwIjoxNjc2NjcwNjkyfQ.0kZvw-FeCRaxX_xbXEtudFhZHzXSpZj0pcR79tKUhjQ
-    
+### Login Normal
+POST http://localhost:3003/user/login
+Content-Type: application/json
 
+{
+    
+    "email": "pedro@souza.com",
+    "password": "pedro123"
+    
+}
+
+### UserProfile
+GET http://localhost:3003/user/profile
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4MDE3MzRkLWY4ZTctNGMxNy04ZTJlLTJiNGJjZmQ0NjkyZiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NzA3NjMzNSwiZXhwIjoxNjc3MDc5OTM1fQ._TOcKPlVj7o9BVJKtjRJo14mvICjeRHRO9zkT2zyM_I
+### Get User By Id
+GET http://localhost:3003/user/user/b801734d-f8e7-4c17-8e2e-2b4bcfd4692f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2ZTQwOTFlLWU4NzMtNGFmOS1iOTgwLTI2OTg0OTNiZTk3ZSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NzcwNzEzOTMsImV4cCI6MTY3NzA3NDk5M30.aWvSsSYjqgWvdAwIoqeHu_2OXUJDz5wo4j6iBBDwpnc
 
 ### Create Recipe
 
@@ -33,9 +45,9 @@ POST http://localhost:3003/recipe/recipe
 Content-Type: application/json
 
 {
-    "title": "Salada",
-    "description": "1 alface americana, 2 cenouras raladas, 1 beterraba ralada",
-    "authorId": "a6e4091e-e873-4af9-b980-2698493be97e"    
+    "title": "Feijoada",
+    "description": "1 Kg de feijão preto, 100 g de carne seca, 70 g de orelha de porco",
+    "authorId": "035ba2f5-f531-4de4-846b-75b80c815391"    
 }
 
 ### Follow friend
@@ -56,7 +68,8 @@ GET http://localhost:3003/recipe/feed/b801734d-f8e7-4c17-8e2e-2b4bcfd4692f
 ### Get All Users
 GET http://localhost:3003/user/allusers
 
-
+### Get Recipe By Id
+GET http://localhost:3003/recipe/getrecipe/88479a14-4b54-471b-91bf-e59a449ccb53
 
 
 ### Get All Friendships
@@ -71,3 +84,18 @@ Content-Type: application/json
 {
     "user_2_id": "9bef762a-ebf6-48ab-a6c3-39d346a4e319"
 }
+
+### Edit Recipe
+
+PUT http://localhost:3003/recipe/edit/3a95cb73-9cb7-42bf-a507-5751d56d1833
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4MDE3MzRkLWY4ZTctNGMxNy04ZTJlLTJiNGJjZmQ0NjkyZiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NzA3NTY3MiwiZXhwIjoxNjc3MDc5MjcyfQ.XNm4tKti6dd9PPf0E11ibRc9KAv-vsnzBw9idumKKgo
+Content-Type: application/json
+
+{
+    "title": "Salada de Legumes"  
+}
+
+### Delete Recipe
+
+DELETE http://localhost:3003/recipe/delete/a16bb1fa-d611-4d6a-97bc-e483441f38f7
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4MDE3MzRkLWY4ZTctNGMxNy04ZTJlLTJiNGJjZmQ0NjkyZiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NzA3NjMzNSwiZXhwIjoxNjc3MDc5OTM1fQ._TOcKPlVj7o9BVJKtjRJo14mvICjeRHRO9zkT2zyM_I

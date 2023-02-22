@@ -28,7 +28,7 @@ export interface loginDTO{
     password:string,
 }
 
-export interface userProfileDTO{
+export interface userGetByIdDTO{
     id: string,
     token:string
 }
