@@ -1,10 +1,10 @@
 import { CustomError } from "../error/CustomError";
-import { recipe } from "../model/recipe";
+import { EditRecipeInput, recipe } from "../model/recipe";
 import { BaseDatabase } from "./BaseDataBase";
 
 export class RecipeBaseDataBase extends BaseDatabase {
     private recipeTable = 'Cookenu_recipe'
-    private userTable = 'Cookenu_users'
+    
 
     public createRecipe = async (recipe: recipe) => {
         try {
@@ -40,9 +40,38 @@ export class RecipeBaseDataBase extends BaseDatabase {
         } catch (error:any) {
             throw new CustomError(400, error.message);
         }
-
    }
 
+    public editRecipe = async (recipe:EditRecipeInput) => {
+        try {
+            await RecipeBaseDataBase.connection
+            .update({title: recipe.title, description: recipe.description})
+            .where({id: recipe.id})
+            .into(this.recipeTable)            
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
+        }
+    } 
 
+    
+    public getRecipeById = async (id:string) => {
+        try {
+            const result = await RecipeBaseDataBase.connection(this.recipeTable)
+            .select()
+            .where({id}) 
+            return result[0]           
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
+        }
+    } 
 
+    public deleteRecipe = async(id:string) => {
+        try {
+            await RecipeBaseDataBase.connection(this.recipeTable)
+            .where({id})
+            .delete()            
+        } catch (error:any) {
+            throw new CustomError(400, error.message); 
+        }
+    }
 }

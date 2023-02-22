@@ -1,7 +1,7 @@
 import { UserDataBase } from "../data/UserBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { EmailNotFound, IdNotFound, invalidPassword, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
-import { loginDTO, user, UserInputDTO, userProfileDTO, UserRole } from "../model/user";
+import { loginDTO, user, userGetByIdDTO, UserInputDTO, UserRole } from "../model/user";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenGenerator } from "../services/TokenGenerator";
@@ -86,14 +86,46 @@ export class UserBusiness {
         }
     }
 
-    public UserProfile = async (input: userProfileDTO) =>{
+    public UserProfile = async (token: string) =>{
         try {
-            const {id, token} = input
+                        
+            if(!token){
+                throw new TokenNotFound()
+            }
 
+            const data = tokenGenerator.tokenData(token)
+                      
+            
+            if(!data.id){
+                throw new Unauthorized()
+            }
+                      
+
+            const id = data.id            
+
+           const result = await userDataBase.UserProfile(id)
+           
+           if(!result){
+                throw new UserNotFound();                
+           }
+
+           return result
+
+        } catch (error: any) {
+            throw new CustomError(400, error.message)
+            
+        }
+    }
+
+    public getUserById = async (input:userGetByIdDTO) =>{
+        try {
+
+            const {id, token} = input
+                        
             if(!id){
                 throw new IdNotFound()
             }
-
+            
             if(!token){
                 throw new TokenNotFound()
             }
@@ -104,7 +136,16 @@ export class UserBusiness {
                 throw new Unauthorized()
             }
 
-           const result = await userDataBase.UserProfile(id)
+            const allUsers = await userDataBase.getAllUsers()
+
+            const checkUser = allUsers.find(user => user.id === input.id)
+
+            if(!checkUser){
+                throw new UserNotFound()
+            }
+            
+
+           const result = await userDataBase.getUserById(id)
            
            if(!result){
                 throw new UserNotFound();
