@@ -77,5 +77,23 @@ export class UserController {
     }
    }
 
+   public deleteUser = async (req: Request, res: Response)=>{
+    try {
+
+        const input: userGetByIdDTO = {
+            id: req.params.id,
+            token: req.headers.authorization as string
+        }  
+        
+        await userBusiness.deleteUser(input)
+
+        res.status(200).send({message: 'User deleted successfully'})
+
+    } catch (error: any) {
+    res.status(error.statusCode || 400).send(error.message || error.sqlMessage)  
+        
+    }
+   }
+
 
 }

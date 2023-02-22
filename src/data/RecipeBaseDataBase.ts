@@ -74,4 +74,21 @@ export class RecipeBaseDataBase extends BaseDatabase {
             throw new CustomError(400, error.message); 
         }
     }
+
+    public deleteRecipeByAuthor = async(id:string) => {
+        try {
+            await RecipeBaseDataBase.connection(this.recipeTable)
+            .where({author_id:id})
+            .delete()            
+        } catch (error:any) {
+            throw new CustomError(400, error.message); 
+        }
+    }
+
+
+
+
+
+
+
 }

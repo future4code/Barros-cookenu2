@@ -33,5 +33,18 @@ export class FriendShipBaseDataBase extends BaseDatabase{
         }
     }
 
+    public unfollowByAuthor = async(id:string) => {
+        try {
+            await FriendShipBaseDataBase.connection(this.friendShipTable)
+            .where(function(){
+                this.where("Cookenu_friends.user_1_id", "=", id)
+                .orWhere("Cookenu_friends.user_2_id", "=",id)
+            })
+            .delete()            
+        } catch (error:any) {
+            throw new CustomError(400, error.message); 
+        }
+    }
+
 
 }

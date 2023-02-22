@@ -10,3 +10,4 @@ userRouter.post('/login', userController.login);
 userRouter.get('/profile', userController.UserProfile)
 userRouter.get('/allusers', userController.getAllUsers)
 userRouter.get('/user/:id', userController.getUserById)
+userRouter.delete('/delete/:id', userController.deleteUser)
