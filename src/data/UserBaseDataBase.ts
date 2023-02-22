@@ -1,5 +1,5 @@
 import { CustomError } from "../error/CustomError";
-import { user} from "../model/user";
+import { inputForgotPassword, user} from "../model/user";
 import { BaseDatabase } from "./BaseDataBase";
 
 export class UserDataBase extends BaseDatabase{
@@ -67,5 +67,13 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
-
+    public forgotPassword = async (user: inputForgotPassword) => {
+        try {
+            await UserDataBase.connection(this.userTable)
+            .where({id:user.id})
+            .update({password:user.password})            
+        } catch (error:any) {
+            throw new CustomError(400, error.message)
+        }
+    }
 }

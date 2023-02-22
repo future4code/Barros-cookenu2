@@ -3,10 +3,14 @@ import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { UserDataBase } from "../data/UserBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { EmailNotFound, IdNotFound, invalidPassword, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
-import { loginDTO, user, userGetByIdDTO, UserInputDTO, UserRole } from "../model/user";
+import { inputForgotPassword, loginDTO, user, UserForgotPasswordDTO, userGetByIdDTO, UserInputDTO, UserRole } from "../model/user";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
+import transporter from "../services/mailTransporter";
 import { TokenGenerator } from "../services/TokenGenerator";
+
+
+
 
 
 const idGenerator = new IdGenerator()
@@ -216,6 +220,54 @@ export class UserBusiness {
             throw new CustomError(400, error.message)
         }
     }
+
+        public forgotPassword = async (input: UserForgotPasswordDTO) => {
+            try {
+                const {email, password, token} = input
+
+                if(!email){
+                    throw new EmailNotFound()
+                }
+    
+                if(!password){
+                    throw new PasswordNotFound()
+                }
+
+                if(!token){
+                    throw new TokenNotFound()
+                }
+    
+                const data = tokenGenerator.tokenData(token)
+                
+                if(!data.id){
+                    throw new Unauthorized()
+                }
+
+                const hashPassword: string = await hashManager.hash(password);
+
+
+                const user: inputForgotPassword = {
+                    id:data.id,
+                    password:hashPassword,
+                }
+
+                          
+
+
+                await userDataBase.forgotPassword(user)
+
+                const send = await transporter.sendMail({
+                    from: process.env.NODEMAILER_USER,
+                    to: input.email,
+                    subject: "Password changed",
+                    text:   `new password: ${input.password}`
+                })
+
+                                
+            } catch (error:any) {
+                throw new CustomError(400, error.message)
+            }
+        }
 
 
 
