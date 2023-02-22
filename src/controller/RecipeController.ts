@@ -68,8 +68,7 @@ export class RecipeController {
     }
     
     public deleteRecipe = async (req: Request, res: Response) => {
-        try {
-            
+        try {            
             const input:DeleteRecipeInputDTO = {
                 id: req.params.id,
                 token: req.headers.authorization as string                
@@ -77,11 +76,12 @@ export class RecipeController {
 
             await recipeBusiness.deleteRecipe(input)
 
-            res.status(200).send({message: "deleted recipe!"})        
+            res.status(200).send({message: "edited recipe!"})        
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     } 
+  
 
 
 }

@@ -57,5 +57,15 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
+    public deleteUser = async (id:string) => {
+        try {
+            await UserDataBase.connection(this.userTable)
+            .where({id})
+            .delete()
+        } catch (error:any) {
+            throw new CustomError(400, error.message);  
+        }
+    }
+
 
 }

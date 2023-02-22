@@ -1,3 +1,5 @@
+import { FriendShipBaseDataBase } from "../data/FriendShipBaseDataBase";
+import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { UserDataBase } from "../data/UserBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { EmailNotFound, IdNotFound, invalidPassword, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
@@ -9,6 +11,8 @@ import { TokenGenerator } from "../services/TokenGenerator";
 
 const idGenerator = new IdGenerator()
 const userDataBase = new UserDataBase()
+const recipeBaseDataBase = new RecipeBaseDataBase()
+const friendshipBaseDataBase = new FriendShipBaseDataBase()
 const tokenGenerator = new TokenGenerator()
 const hashManager = new HashManager()
 
@@ -168,5 +172,52 @@ export class UserBusiness {
             throw new CustomError(400, error.message)
         }
     }
+
+
+    public deleteUser = async(input: userGetByIdDTO) => {
+        try {
+
+            const {id,token} = input
+
+            if(!id){
+                throw new IdNotFound() 
+            }
+
+            const allUsers = await userDataBase.getAllUsers()
+
+            const checkUser = allUsers.find(user => user.id === input.id)
+
+            if(!checkUser){
+                throw new UserNotFound()
+            }
+            
+
+            if(!token){
+                throw new TokenNotFound()
+            }
+
+            const data = tokenGenerator.tokenData(token)
+            
+            if(!data.id){
+                throw new Unauthorized()
+            }
+
+            if(data.role.toUpperCase() !== UserRole.ADMIN){
+                throw new Unauthorized()
+            }
+
+            
+
+            await recipeBaseDataBase.deleteRecipeByAuthor(id) 
+            await friendshipBaseDataBase.unfollowByAuthor(id)
+            await userDataBase.deleteUser(id)
+            
+        } catch (error:any) {
+            throw new CustomError(400, error.message)
+        }
+    }
+
+
+
 
 }
