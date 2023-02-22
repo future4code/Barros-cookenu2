@@ -33,3 +33,13 @@ export interface userGetByIdDTO{
     token:string
 }
 
+export interface inputForgotPassword{
+    id:string,
+    password:string,
+}
+
+export interface UserForgotPasswordDTO{
+    email:string,
+    password:string,
+    token: string
+}

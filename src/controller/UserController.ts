@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-import { loginDTO, userGetByIdDTO, UserInputDTO} from "../model/user";
+import { loginDTO, UserForgotPasswordDTO, userGetByIdDTO, UserInputDTO} from "../model/user";
 
 const userBusiness = new UserBusiness()
 
@@ -94,6 +94,27 @@ export class UserController {
         
     }
    }
+
+   public forgotPassword = async (req: Request, res: Response)=>{
+    try {
+
+        const input: UserForgotPasswordDTO = {
+            email: req.body.email,
+            password: req.body.password,
+            token: req.headers.authorization as string
+        }  
+        
+        await userBusiness.forgotPassword(input)
+
+        res.status(200).send({message: 'password changed successfully'})
+
+    } catch (error: any) {
+    res.status(error.statusCode || 400).send(error.message || error.sqlMessage)  
+        
+    }
+   }
+
+
 
 
 }

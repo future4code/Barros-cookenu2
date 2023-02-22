@@ -4,10 +4,10 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name": "Maria  do carmo",
-    "email": "maria@carmo.com",
-    "password": "maria123",
-    "role": "NORMAL"
+    "name": "Kayo Céshar",
+    "email": "kayoceshar@hotmail.com",
+    "password": "kayo123",
+    "role": "ADMIN"
 }
 
 ### Login ADmin
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
     
-    "email": "felipe@labenu.com",
-    "password": "devpleno123"
+    "email": "fmalcantara@hotmail.com",
+    "password": "felipe.124"
     
 }
 
@@ -108,3 +108,15 @@ DELETE http://localhost:3003/user/delete/9bef762a-ebf6-48ab-a6c3-39d346a4e319
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2ZTQwOTFlLWU4NzMtNGFmOS1iOTgwLTI2OTg0OTNiZTk3ZSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NzcwOTEwNjAsImV4cCI6MTY3NzA5NDY2MH0.04XCvCIeHIdHkTpDjjHJ3q8SJv1GxiMNuc3w74ftINA
 
 
+###Forgot
+POST http://localhost:3003/user/forgotpassword
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4MDE3MzRkLWY4ZTctNGMxNy04ZTJlLTJiNGJjZmQ0NjkyZiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY3NzA5OTMxMiwiZXhwIjoxNjc3MTAyOTEyfQ.C1vLcrBDc5cz5MIBGFHBnNiyOXvMCJQ4Oz4Ex3dDzQM
+Content-Type: application/json
+
+
+{
+    
+    "email": "fmalcantara@hotmail.com",
+    "password": "felipe.124"
+    
+}
