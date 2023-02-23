@@ -393,3 +393,16 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
 
   - **Esqueci a senha**
     > O programa possui a funcionalidade de recuperação de senha enviando um e-mail para alteração de senha do usuário.
+    
+    [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+    
+    - ### **👨‍💻 Tecnologias Utilizadas**
+    	
+	- Typescript
+	- Node.js
+	- MySQL
+	- Express.js
+	- Knex.js
+	
+	- Para Rodar o projeto foi utilizado a biblioteca NPM install.
+    
