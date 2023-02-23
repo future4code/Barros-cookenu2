@@ -41,4 +41,189 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
    
   ## 🎯 EndPoints 🥄
   
+  - ### **🎯Signup**
+    
+    **Método:** POST
+
+    **Path:** `/signup`
+    
+    **Entradas:**
+    <br>
+     Body
+    ```json
+    {
+    	"name": "Alice",
+    	"email": "alice@lbn.com",
+    	"password": "123456"
+    }
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    
+    ```json
+    {
+    	"access_token": "token de acesso"
+    }
+    ```
+    
+    🔎 **Observações**:
+    
+    > O seu código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    - O código deve gerar o id do usuário
   
+    [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+  - ### **🎯Login**
+    
+    **Método:** POST
+    **Path:** `/login`
+    
+    **Entradas:**
+    <br>
+     Body
+    
+    ```json
+    {
+    	"email": "alice@lbn.com",
+    	"password": "123456"
+    }
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    
+    ```json
+    {
+    	"access_token": "token de acesso"
+    }
+    ```
+    
+    **🔎 Observações**:
+    
+    > O seu código deve validar se os dois campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+
+    [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+- ### **🎯Pegar próprio perfil**
+    
+    **Método:** GET
+    **Path:** `/user/profile`
+    
+    **Entradas:**
+    <br>
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+   
+   ```json
+      {
+	    "id": "id do usuário",
+	    "name": "Alice",
+	    "email": "alice@lbn.com"
+      }
+    ```
+   [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+    - ### **🎯 Pegar perfil de outro usuário**
+    
+    **Método:** GET
+
+    **Path:** `/user/:id`
+    
+    **Entradas:**
+    <br>
+    Path Param
+    
+    ```
+    id: "id do usuário"
+    ```
+    
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+
+     ```json
+
+      {
+	    "id": "id do usuário",
+	    "name": "Alice",
+	    "email": "alice@lbn.com"
+      }
+    ```
+  
+
+   [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+
+   - ### **🎯Criar receita**
+    
+    **Método:** POST
+    **Path:** `/recipe`
+    
+    **Entradas:**
+    <br>
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    Body
+    
+    ```json
+    {
+    	"title": "título da receita",
+    	"description": "descrição da receita"
+    }
+    ```
+    
+    **🔎 Observações**:
+    
+    > Perceba que, no banco de dados, devemos guardar a data de criação da receita, mas o usuário não envia. Você deve assumir que a receita foi criada no momento em que o usuário bate nessa requisição
+
+  [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+    - ### **🎯 Pegar receita**
+    
+    **Método:** GET
+    **Path:** `/recipe/:id`
+    
+    **Entradas:**
+    
+    Path Param
+    
+    ```
+    id: "id da receita"
+    ```
+    
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    
+    ```json
+    {
+    	"id": "id da receita",
+    	"title": "Ovo Frito",
+    	"description": "Pega o ovo, põe na frigideira e reza!"
+    	"cratedAt": "31/12/2020"
+    }
+    ```
