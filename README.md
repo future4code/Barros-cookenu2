@@ -70,7 +70,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     🔎 **Observações**:
     
-    > O seu código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    > O código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
     - O código deve gerar o id do usuário
   
     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
@@ -103,7 +103,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     **🔎 Observações**:
     
-    > O seu código deve validar se os dois campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    > O código deve validar se os dois campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
 
     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
 
