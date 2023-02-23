@@ -44,7 +44,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
   - ### **🎯Signup**
     
     **Método:** POST
-
+	  <br>
     **Path:** `/signup`
     
     **Entradas:**
@@ -77,6 +77,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
   - ### **🎯Login**
     
     **Método:** POST
+    <br>
     **Path:** `/login`
     
     **Entradas:**
@@ -109,6 +110,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
 - ### **🎯Pegar próprio perfil**
     
     **Método:** GET
+    <br>
     **Path:** `/user/profile`
     
     **Entradas:**
@@ -134,7 +136,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     - ### **🎯 Pegar perfil de outro usuário**
     
     **Método:** GET
-
+    <br>
     **Path:** `/user/:id`
     
     **Entradas:**
@@ -171,6 +173,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
    - ### **🎯Criar receita**
     
     **Método:** POST
+      <br>
     **Path:** `/recipe`
     
     **Entradas:**
@@ -199,10 +202,11 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     - ### **🎯 Pegar receita**
     
     **Método:** GET
+    <br>
     **Path:** `/recipe/:id`
     
     **Entradas:**
-    
+    <br>
     Path Param
     
     ```
