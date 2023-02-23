@@ -6,13 +6,13 @@ Documentação:
 
   [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
 
-## 🧩 Projeto Cookenu 🥄
+## 🧩 Projeto Cookenu - BackEnd - Turma Barros🥄
 
 Esse produto nada mais é do que uma rede social, na qual os usuários podem dividir informações relevantes sobre comidas e receitas que tenham experimentado. Ela possui todas as funcionalidades mais comuns em redes sociais:
 
 🥄 1. **Cadastro / Criar Pessoa Usuária**
     
-   > Como o projeto está no início, o usuário só precisa informar: o e-mail, nome a sua senha para realizar o cadastro. A senha tem uma regra: ela deve conter, no mínimo, 6 caracteres. 
+   > O usuário só precisa informar: o e-mail, nome a sua senha para realizar o cadastro. A senha tem uma regra: ela deve conter, no mínimo, 6 caracteres. 
     
 🥄 2. **Login**
     
@@ -24,15 +24,15 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
 🥄 4. **Criar receitas**
     
-   > O usuário deve poder criar uma receita. A receita deve ter os seguintes atributos: título, descrição/modo de preparo e data de criação
+   > O usuário poderá criar uma receita. A receita deve ter os seguintes atributos: título, descrição-modo de preparo- e data de criação
     
 🥄 5. **Seguir usuário**
     
-   > Um usuário deve poder seguir outros usuários. Para isso, ele deve fornecer o id do usuário que deseja seguir. Atente-se que essa funcionalidade se assemelha ao do instagram: um usuário seguir outro, não significa que "esse outro" está seguindo o primeiro.
+   > Um usuário poderá seguir outros usuários. Para isso, ele deve fornecer o id do usuário que deseja seguir. Atente-se que essa funcionalidade se assemelha ao do instagram: um usuário seguir outro, não significa que "esse outro" está seguindo o primeiro.
     
 🥄 6. **Feed**
     
-   > Um usuário deve poder visualizar as receitas criadas pelos usuários que ele segue. As receitas devem estar ordenadas pela data de criação.
+   > Um usuário poderá visualizar as receitas criadas pelos usuários que ele segue. As receitas devem estar ordenadas pela data de criação.
    
   
 ⚠️ **Importante:** 
@@ -70,7 +70,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     🔎 **Observações**:
     
-    > O seu código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    - O programa deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
     - O código deve gerar o id do usuário
   
     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
@@ -103,7 +103,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     **🔎 Observações**:
     
-    > O código deve validar se os dois campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    - O código deve validar se os dois campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
 
     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
 
@@ -195,7 +195,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     **🔎 Observações**:
     
-    > Perceba que, no banco de dados, devemos guardar a data de criação da receita, mas o usuário não envia. Você deve assumir que a receita foi criada no momento em que o usuário bate nessa requisição
+    - Perceba que, no banco de dados, deverá ser guardadado a data de criação da receita, mas o usuário não envia. O programa deve assumir que a receita foi criada no momento em que o usuário bate nessa requisição
 
   [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
 
@@ -323,7 +323,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
   **🔎Observações**:
 
-  >Você deve verificar se o id do usuário é válido (se não está vazio ou se não foi enviado)
+  > O programa deve verificar se o id do usuário é válido (se não está vazio ou se não foi enviado)
 
      [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
 
