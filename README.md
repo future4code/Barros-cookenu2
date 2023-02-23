@@ -70,7 +70,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     
     🔎 **Observações**:
     
-    > O código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
+    > O seu código deve validar se os três campos estão completos (ou seja se não foram enviados ou se não estão vazios) e retornar um erro caso não estejam válidos
     - O código deve gerar o id do usuário
   
     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
@@ -206,7 +206,7 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     **Path:** `/recipe/:id`
     
     **Entradas:**
-    <br>
+    
     Path Param
     
     ```
@@ -231,3 +231,165 @@ Esse produto nada mais é do que uma rede social, na qual os usuários podem div
     	"cratedAt": "31/12/2020"
     }
     ```
+
+     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+  - ## **🎖️ Informações Complementares**
+
+  > Abaixo segue uma lista de implementaçõpes para dar mais funcionalidade ao projeto
+    
+    <br/>
+
+  - ### **🎖️Seguir usuário**
+    
+    **Método:** POST
+    <br>
+    **Path:** `/user/follow`
+    
+    **Entradas:**
+    <br>
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    Body
+    
+    ```json
+    {
+    	"userToFollowId": "id do usuário que se deseja seguir"
+    }
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    
+    ```json
+    {
+    	"message": "Followed successfully"
+    }
+    ```
+    
+    **🔎 Observações**:
+    
+    > Você deve verificar se o id do usuário é válido (se não está vazio ou se não foi enviado)
+
+
+      [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+  - ### **🎖️Deixar de Seguir usuário**
+    <br>
+
+    **Método:** POST
+    <br>
+    **Path:** `/user/unfollow`
+    
+    **Entradas:**
+    
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    Body
+    
+    ```json
+    {
+    	"userToUnfollowId": "id do usuário que se deseja deixar de seguir"
+    }
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    ```json
+    {
+    	"message": "Unfollowed successfully"
+    }
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+    
+    ```json
+    {
+    	"message": "Unfollowed successfully"
+    }
+    ```
+    
+  **🔎Observações**:
+
+  >Você deve verificar se o id do usuário é válido (se não está vazio ou se não foi enviado)
+
+     [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+   - ### **🎖️Pegar Feed de Receitas**
+      <br>
+    
+    Este endpoint deve trazer todas as receitas criadas por pessoas que a pessoa logada (o id que está no token) segue.
+    
+    **Método:** GET
+    <br>
+    **Path:** `/user/feed`
+    
+    **Entradas:**
+    <br>
+    Headers
+    
+    ```
+    Authorization: "token de autenticação"
+    ```
+    
+    **Saídas**
+    <br>
+    Body
+
+    ```json
+      {
+	    "recipes": [{
+			"id": "id da receita",
+			"title": "título da receita",
+			"description": "descrição da receita",
+			"createdAt": "31/12/2020",
+			"userId": "id do usuário que criou a receita",
+			"userName": "nome do usuário que criou a receita"
+	      }]
+      }
+  
+    ```
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
+
+- ### **⭐Informações adicionais**
+
+  - **Editar receita**
+    > Um usuário "normal" deve ser capaz de editar uma receita própria dele.
+    
+    > O programa deve retornar um erro se a receita não for dele
+
+    <br> 
+
+  - **Deletar receita**
+    > Um usuário "normal" deve ser capaz de deletar uma receita própria dele.
+    
+    > O programa deve retornar um erro se a receita não for dele
+    
+    > Agora, se o usuário que tentar acessar essa receita for um admin, o programa deve permitir que ele delete qualquer post que ele passar.
+
+    <br>
+
+  - **Deletar conta**
+    > Um usuário "admin" deve ser capaz de deletar a conta de qualquer usuário.
+    
+    > O programa deve retornar um erro se o usuário que acessou essa funcionalidade não for um admin.
+    
+    > Quando for deletar o usuário, lembre-se que programa deve deletar todas as relações do MySQL com a qual ele esteja envolvido: receita e usuários que segue
+  
+    <br>
+
+  - **Esqueci a senha**
+    > O programa possui a funcionalidade de recuperação de senha enviando um e-mail para alteração de senha do usuário.
