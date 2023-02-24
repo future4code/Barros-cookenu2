@@ -69,7 +69,7 @@ export class RecipeController {
 
             await recipeBusiness.editRecipe(input)
 
-            res.status(200).send({message: "edited recipe!"})        
+            res.status(200).send({message: "Edited recipe!"})        
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
@@ -89,6 +89,16 @@ export class RecipeController {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     } 
+
+    public getAllRecipes =async (req: Request, res: Response): Promise<void>  => {
+        try {
+            const  token = req.headers.authorization as string
+            const result = await recipeBusiness.getAllRecipes(token)
+            res.status(200).send(result)
+        } catch (error:any) {
+            res.status(error.statusCode || 400).send(error.message || error.sqlMessage)    
+        }
+       }
   
 
 
