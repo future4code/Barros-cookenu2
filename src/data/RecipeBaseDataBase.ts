@@ -1,12 +1,12 @@
 import { CustomError } from "../error/CustomError";
-import { EditRecipeInput, recipe } from "../model/recipe";
+import {EditRecipeInput, recipe, RecipeDTO, RecipeFeed } from "../model/recipe";
 import { BaseDatabase } from "./BaseDataBase";
 
 export class RecipeBaseDataBase extends BaseDatabase {
     private recipeTable = 'Cookenu_recipe'
     
 
-    public createRecipe = async (recipe: recipe) => {
+    public createRecipe = async (recipe: recipe): Promise<void>  => {
         try {
             await RecipeBaseDataBase.connection(this.recipeTable)
             .insert({
@@ -20,7 +20,7 @@ export class RecipeBaseDataBase extends BaseDatabase {
         }
     }
 
-    public friendsFeed = async (id:string) => {
+    public friendsFeed = async (id:string): Promise<RecipeFeed[]> => {
         try {
              const result = await RecipeBaseDataBase.connection(this.recipeTable)
             .select('Cookenu_recipe.title','Cookenu_recipe.description','Cookenu_recipe.created_at','Cookenu_users.name')
@@ -42,7 +42,7 @@ export class RecipeBaseDataBase extends BaseDatabase {
         }
    }
 
-    public editRecipe = async (recipe:EditRecipeInput) => {
+    public editRecipe = async (recipe:EditRecipeInput): Promise<void>  => {
         try {
             await RecipeBaseDataBase.connection
             .update({title: recipe.title, description: recipe.description})
@@ -54,12 +54,24 @@ export class RecipeBaseDataBase extends BaseDatabase {
     } 
 
     
-    public getRecipeById = async (id:string) => {
+    public getRecipeById = async (id:string): Promise<RecipeDTO[]> => {
         try {
             const result = await RecipeBaseDataBase.connection(this.recipeTable)
             .select()
             .where({id}) 
-            return result[0]           
+            return result          
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
+        }
+    } 
+
+
+    public filterRecipeById = async (id:string): Promise<RecipeDTO> => {
+        try {
+            const result = await RecipeBaseDataBase.connection(this.recipeTable)
+            .select()
+            .where({id}) 
+            return result[0]          
         } catch (error:any) {
             throw new CustomError(400, error.message);
         }

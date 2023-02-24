@@ -2,8 +2,8 @@ import { FriendShipBaseDataBase } from "../data/FriendShipBaseDataBase";
 import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { UserDataBase } from "../data/UserBaseDataBase";
 import { CustomError } from "../error/CustomError";
-import { EmailNotFound, IdNotFound, invalidPassword, InvalidRole, NameNotFound, PasswordNotFound, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
-import { inputForgotPassword, loginDTO, user, UserForgotPasswordDTO, userGetByIdDTO, UserInputDTO, UserRole } from "../model/user";
+import { EmailNotFound, IdNotFound,InvalidEmail,InvalidPassword,InvalidRole, NameNotFound, PasswordNotFound, RepeatedEmail, RoleNotFound, TokenNotFound, Unauthorized, UserNotFound } from "../error/userErrors";
+import { InputForgotPassword, LoginDTO, user, UserForgotPasswordDTO, UserGetByIdDTO, UserInputDTO, UserRole } from "../model/user";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import transporter from "../services/mailTransporter";
@@ -21,7 +21,8 @@ const tokenGenerator = new TokenGenerator()
 const hashManager = new HashManager()
 
 export class UserBusiness {
-    public signup = async(input: UserInputDTO) => {
+    
+    public signup = async(input: UserInputDTO): Promise<string> => {
         try{
             
             const {name, email,password, role} = input
@@ -37,6 +38,22 @@ export class UserBusiness {
             }
             if(!role){
                 throw new RoleNotFound()
+            }
+
+            if(password.length<6){
+                throw new PasswordNotFound()
+            }
+
+            if (!email.includes("@")) {
+                throw new InvalidEmail();
+            }
+
+            const allUsers = await userDataBase.getAllUsers();
+            
+            const repeatedEmail = allUsers.find((user) => { return user.email === email})
+
+            if (repeatedEmail) {
+                throw new RepeatedEmail();
             }
 
             const id: string = idGenerator.generateId();
@@ -64,9 +81,10 @@ export class UserBusiness {
         }
     }
 
-    public login = async(input: loginDTO) =>{
+    public login = async(input: LoginDTO): Promise<string> =>{
         try {
             const {email, password} = input 
+            
             if(!email){
                 throw new EmailNotFound()
             }
@@ -76,15 +94,16 @@ export class UserBusiness {
             }
             
             const user = await userDataBase.findUser(email)
-                if(!user) {
-                    throw new UserNotFound();
-                }
             
-                const validPassword: boolean= await hashManager.compare(password, user.password)
+            if(!user) {
+                throw new UserNotFound();
+            }
+            
+            const validPassword: boolean= await hashManager.compare(password, user.password)
 
-                if(!validPassword){
-                    throw new invalidPassword;    
-                }
+            if(!validPassword){
+                    throw new InvalidPassword();    
+            }
 
             const token = tokenGenerator.generateToken({id: user.id, role:user.role})
             return token
@@ -94,7 +113,7 @@ export class UserBusiness {
         }
     }
 
-    public UserProfile = async (token: string) =>{
+    public userProfile = async (token: string) =>{
         try {
                         
             if(!token){
@@ -111,7 +130,7 @@ export class UserBusiness {
 
             const id = data.id            
 
-           const result = await userDataBase.UserProfile(id)
+            const result = await userDataBase.userProfile(id)
            
            if(!result){
                 throw new UserNotFound();                
@@ -125,7 +144,7 @@ export class UserBusiness {
         }
     }
 
-    public getUserById = async (input:userGetByIdDTO) =>{
+    public getUserById = async (input:UserGetByIdDTO) =>{
         try {
 
             const {id, token} = input
@@ -168,8 +187,19 @@ export class UserBusiness {
         }
     }
 
-    public getAllUsers = async() => {
+    public getAllUsers = async(token:string):Promise<user[]> => {
         try {
+
+            if(!token){
+                throw new TokenNotFound()
+            }
+
+            const data = tokenGenerator.tokenData(token)
+            
+            if(!data.id){
+                throw new Unauthorized()
+            }
+
             const result = await userDataBase.getAllUsers()
             return result
         } catch (error:any) {
@@ -178,7 +208,7 @@ export class UserBusiness {
     }
 
 
-    public deleteUser = async(input: userGetByIdDTO) => {
+    public deleteUser = async(input: UserGetByIdDTO): Promise<void>  => {
         try {
 
             const {id,token} = input
@@ -221,7 +251,7 @@ export class UserBusiness {
         }
     }
 
-        public forgotPassword = async (input: UserForgotPasswordDTO) => {
+        public forgotPassword = async (input: UserForgotPasswordDTO): Promise<void>  => {
             try {
                 const {email, password, token} = input
 
@@ -230,6 +260,10 @@ export class UserBusiness {
                 }
     
                 if(!password){
+                    throw new PasswordNotFound()
+                }
+
+                if(password.length<6){
                     throw new PasswordNotFound()
                 }
 
@@ -246,12 +280,10 @@ export class UserBusiness {
                 const hashPassword: string = await hashManager.hash(password);
 
 
-                const user: inputForgotPassword = {
+                const user: InputForgotPassword = {
                     id:data.id,
                     password:hashPassword,
-                }
-
-                          
+                }                         
 
 
                 await userDataBase.forgotPassword(user)

@@ -4,11 +4,12 @@ import { FriendsInputDTO } from "../model/friendship";
 
 const friendShipBusiness = new FriendShipBusiness()
 export class FriendShipController {
-    public addFriend = async(req:Request, res: Response) => {
+    
+    public addFriend = async(req:Request, res: Response): Promise<void> => {
         try {
             const input:FriendsInputDTO = {
-                user_1_id: req.body.user_1_id,
-                user_2_id: req.body.user_2_id
+                token: req.headers.authorization as string,
+                followedUser: req.params.id
             }
             
         await friendShipBusiness.addFriend(input)
@@ -20,25 +21,27 @@ export class FriendShipController {
         }
     }
 
-    public getAllFriends = async(req:Request, res: Response) => {
+    public getAllFriends = async(req:Request, res: Response): Promise<void> => {
         try {
-           const result =  await friendShipBusiness.getAllFriends()
+
+            const  token = req.headers.authorization as string
+
+           const result =  await friendShipBusiness.getAllFriends(token)
            res.status(201).send(result)           
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     }
 
-    public unfollow = async(req:Request, res: Response) => {
+    public unfollow = async(req:Request, res: Response): Promise<void> => {
         try {
 
             const input: FriendsInputDTO = {
-                user_1_id: req.params.user_1_id as string,
-                user_2_id: req.body.user_2_id
+                token: req.headers.authorization as string,
+                followedUser: req.params.id
             }
 
-            console.log(input.user_2_id);
-            
+                       
 
             await friendShipBusiness.unfollow(input)
 

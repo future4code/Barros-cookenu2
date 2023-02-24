@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-import { loginDTO, UserForgotPasswordDTO, userGetByIdDTO, UserInputDTO} from "../model/user";
+import { LoginDTO, UserForgotPasswordDTO, UserGetByIdDTO, UserInputDTO} from "../model/user";
 
 const userBusiness = new UserBusiness()
 
 export class UserController {
-    public signup = async(req: Request, res:Response) => {
+    public signup = async(req: Request, res:Response): Promise<void>  => {
         try{
             const input: UserInputDTO = {
                 name: req.body.name,
@@ -16,34 +16,34 @@ export class UserController {
            
             const token = await userBusiness.signup(input)
 
-            res.status(200).send({message: "User Created!", token})
+            res.status(200).send({message: "User Created!", access_token:token})
 
         }catch(error:any){
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     }
 
-   public login = async (req: Request, res: Response) => {
+   public login = async (req: Request, res: Response): Promise<void>  => {
         try {
             
-            const input: loginDTO= {
+            const input: LoginDTO= {
                 email: req.body.email,
                 password: req.body.password
             }
 
         const token = await userBusiness.login(input)
-        res.status(200).send({message: "Logged in user!", token})
+        res.status(200).send({message: "Logged in user!", access_token:token})
 
         } catch (error: any) {
         res.status(error.statusCode || 400).send(error.message || error.sqlMessage)        }
    }
 
-   public UserProfile = async (req: Request, res: Response)=>{
+   public userProfile = async (req: Request, res: Response): Promise<void> =>{
     try {
 
         const  token = req.headers.authorization as string
         
-        const result = await userBusiness.UserProfile(token)
+        const result = await userBusiness.userProfile(token)
         res.status(200).send(result[0])
 
     } catch (error: any) {
@@ -52,10 +52,10 @@ export class UserController {
     }
    }
 
-   public getUserById = async (req: Request, res: Response)=>{
+   public getUserById = async (req: Request, res: Response): Promise<void> =>{
     try {
 
-        const input: userGetByIdDTO = {
+        const input: UserGetByIdDTO = {
             id: req.params.id,
             token: req.headers.authorization as string
         } 
@@ -68,19 +68,20 @@ export class UserController {
     }
    }
 
-   public getAllUsers =async (req: Request, res: Response) => {
+   public getAllUsers =async (req: Request, res: Response): Promise<void>  => {
     try {
-        const result = await userBusiness.getAllUsers()
+        const  token = req.headers.authorization as string
+        const result = await userBusiness.getAllUsers(token)
         res.status(200).send(result)
     } catch (error:any) {
         res.status(error.statusCode || 400).send(error.message || error.sqlMessage)    
     }
    }
 
-   public deleteUser = async (req: Request, res: Response)=>{
+   public deleteUser = async (req: Request, res: Response): Promise<void> =>{
     try {
 
-        const input: userGetByIdDTO = {
+        const input: UserGetByIdDTO = {
             id: req.params.id,
             token: req.headers.authorization as string
         }  
@@ -95,7 +96,7 @@ export class UserController {
     }
    }
 
-   public forgotPassword = async (req: Request, res: Response)=>{
+   public forgotPassword = async (req: Request, res: Response): Promise<void> =>{
     try {
 
         const input: UserForgotPasswordDTO = {

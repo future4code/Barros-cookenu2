@@ -4,7 +4,20 @@ export type friends = {
     user_2_id: string
 }
 
+export interface FriendsDTO {
+    id: string,
+    user: string,
+    followedUser: string
+}
+
 export interface FriendsInputDTO {
-    user_1_id: string,
-    user_2_id: string
+    followedUser: string,
+    token: string
+}
+
+
+
+export interface FriendsFeedInput {
+    id: string,
+    token: string
 }

@@ -7,6 +7,6 @@ const friendShipController = new FriendShipController()
 export const friendShipRouter = express.Router();
 
 
-friendShipRouter.post('/follow', friendShipController.addFriend)
+friendShipRouter.get('/follow/:id', friendShipController.addFriend)
 friendShipRouter.get('/allfriendship', friendShipController.getAllFriends)
-friendShipRouter.delete('/friendship/:user_1_id', friendShipController.unfollow)
+friendShipRouter.delete('/friendship/:id', friendShipController.unfollow)

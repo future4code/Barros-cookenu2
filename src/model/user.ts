@@ -23,17 +23,17 @@ export interface UserInputDTO{
     role:string
 }
 
-export interface loginDTO{
+export interface LoginDTO{
     email:string,
     password:string,
 }
 
-export interface userGetByIdDTO{
+export interface UserGetByIdDTO{
     id: string,
     token:string
 }
 
-export interface inputForgotPassword{
+export interface InputForgotPassword{
     id:string,
     password:string,
 }
