@@ -2,24 +2,31 @@ import { CustomError } from "./CustomError";
 
 export class UserNotFound1 extends CustomError{
     constructor(){
-        super(404, "User1 Not Found")
+        super(406, "User is required.")
     }
 }
 
 export class UserNotFound2 extends CustomError{
     constructor(){
-        super(404, "User2 Not Found")
+        super(406, "User to be added is required.")
     }
 }
 
 export class DuplicatedId extends CustomError {
     constructor() {
-        super(404, "You can't add yourself.")
+        super(400, "You can't add yourself.")
     }
 }
 
 export class NoExistingFriendship extends CustomError {
     constructor() {
-        super(404, "The users selected are not friends.")
+        super(400, "The users selected are not friends.")
     }
 }
+
+export class ExistingFriendship extends CustomError {
+    constructor() {
+        super(400, "Existing friendship.")
+    }
+}
+

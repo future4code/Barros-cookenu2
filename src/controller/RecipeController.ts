@@ -1,20 +1,21 @@
 import { Request, Response } from "express";
 import { RecipeBusiness } from "../business/RecipeBusiness";
-import {DeleteRecipeInputDTO, EditRecipeInputDTO, RecipeInputDTO } from "../model/recipe";
-import { TokenGenerator } from "../services/TokenGenerator";
+import { FriendsFeedInput } from "../model/friendship";
+import {DeleteRecipeInputDTO, EditRecipeInputDTO, RecipeInput, RecipeInputDTO } from "../model/recipe";
+
 
 const recipeBusiness = new RecipeBusiness()
-const authenticator = new TokenGenerator()
 export class RecipeController {
-    public createRecipe = async (req: Request, res: Response) => {
+    
+    public createRecipe = async (req: Request, res: Response):Promise<void> => {
         try {
             const input: RecipeInputDTO = {
                 title: req.body.title,
                 description: req.body.description,
-                authorId: req.body.authorId
+                authorId: req.body.authorId,
+                token: req.headers.authorization as string
             }
-
-            console.log(input)
+            
 
             await recipeBusiness.createRecipe(input)
 
@@ -26,11 +27,14 @@ export class RecipeController {
     }
 
 
-    public friendsFeed = async(req: Request, res: Response) => {
+    public friendsFeed = async(req: Request, res: Response): Promise<void> => {
         try {   
-            const id = req.params.id as string
+            const input: FriendsFeedInput = {
+                id: req.params.id as string,
+                token: req.headers.authorization as string
+            }
 
-            const result = await recipeBusiness.friendsFeed(id)
+            const result = await recipeBusiness.friendsFeed(input)
 
             res.status(200).send(result)
             
@@ -39,17 +43,21 @@ export class RecipeController {
         }
     }
 
-    public getRecipeById = async (req: Request, res: Response) => {
+    public getRecipeById = async (req: Request, res: Response):Promise<void> => {
         try {
-            const id = req.params.id as string
-            const result = await recipeBusiness.getRecipeById(id)
+            const input: RecipeInput = {
+                id: req.params.id as string,
+                token: req.headers.authorization as string
+            }
+            
+            const result = await recipeBusiness.getRecipeById(input)                     
             res.status(200).send(result)        
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }
     } 
 
-    public editRecipe = async (req: Request, res: Response) => {
+    public editRecipe = async (req: Request, res: Response):Promise<void> => {
         try {
             
             const input:EditRecipeInputDTO = {
@@ -67,7 +75,7 @@ export class RecipeController {
         }
     }
     
-    public deleteRecipe = async (req: Request, res: Response) => {
+    public deleteRecipe = async (req: Request, res: Response):Promise<void> => {
         try {            
             const input:DeleteRecipeInputDTO = {
                 id: req.params.id,
@@ -76,7 +84,7 @@ export class RecipeController {
 
             await recipeBusiness.deleteRecipe(input)
 
-            res.status(200).send({message: "edited recipe!"})        
+            res.status(200).send({message: "Deleted recipe!"})        
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)
         }

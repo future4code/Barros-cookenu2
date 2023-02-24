@@ -2,20 +2,22 @@ import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { AuthorIdNotFound, DescriptionNotFound, IdNotFound, RecipeNotAuthor, RecipeNotFound, TitleNotFound } from "../error/recipErros";
 import { TokenNotFound, Unauthorized } from "../error/userErrors";
-import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO } from "../model/recipe";
+import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO, RecipeOutputDTO, RecipeFeedDTO, RecipeInput} from "../model/recipe";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenGenerator } from "../services/TokenGenerator";
 import {UserRole } from "../model/user"
+import { FriendsFeedInput } from "../model/friendship";
 
 const idGenerator = new IdGenerator()
 const recipeBaseDataBase = new RecipeBaseDataBase()
 const tokenGenerator = new TokenGenerator()
 
 export class RecipeBusiness {
- public createRecipe = async (input: RecipeInputDTO) => {
+ 
+    public createRecipe = async (input: RecipeInputDTO):Promise<void> => {
     try {
 
-        const {title, description, authorId} = input
+        const {title, description, authorId, token} = input
 
                 
         if(!title){
@@ -30,6 +32,17 @@ export class RecipeBusiness {
             throw new AuthorIdNotFound()
         }
 
+        if(!token){
+            throw new TokenNotFound()
+        }
+
+        const data = tokenGenerator.tokenData(token)
+                  
+        
+        if(!data.id){
+            throw new Unauthorized()
+        }
+
         const id = idGenerator.generateId()
 
         const recipe: recipe = {
@@ -39,7 +52,7 @@ export class RecipeBusiness {
             authorId
         }
 
-        console.log(recipe);
+        
         
         await recipeBaseDataBase.createRecipe(recipe)
 
@@ -49,22 +62,44 @@ export class RecipeBusiness {
     }
  } 
  
- public friendsFeed =async (id:string) => {
+ public friendsFeed =async (input:FriendsFeedInput):Promise<RecipeFeedDTO[]> => {
     try {
+
+        const {id,token} = input
 
     if(!id){
         throw new IdNotFound()
     }
 
+    if(!token){
+        throw new TokenNotFound()
+    }
+
+    const data = tokenGenerator.tokenData(token)
+              
+    
+    if(!data.id){
+        throw new Unauthorized()
+    }
+
     const result = await recipeBaseDataBase.friendsFeed(id)
-    return result
+    const resultOutput:RecipeFeedDTO[] = result.map((p) => {
+        return {
+            title: p.title,
+            description: p.description,
+            createdAt: p.created_at,
+            name: p.name
+        }
+    })
+
+    return resultOutput
         
     } catch (error:any) {
         throw new CustomError(400, error.message);
     }
  }
 
- public editRecipe = async (input:EditRecipeInputDTO) => {
+ public editRecipe = async (input:EditRecipeInputDTO): Promise<void> => {
     try {
         const {id, title,description,token} = input
 
@@ -83,7 +118,7 @@ export class RecipeBusiness {
             throw new Unauthorized();
         }
 
-        const getRecipeById = await recipeBaseDataBase.getRecipeById(id)
+        const getRecipeById = await recipeBaseDataBase.filterRecipeById(id)
 
         if (!getRecipeById){
             throw new RecipeNotFound()            
@@ -117,16 +152,45 @@ export class RecipeBusiness {
     }
 } 
 
-public getRecipeById = async (id:string) => {
+public getRecipeById = async (input: RecipeInput): Promise<RecipeOutputDTO[]> => {
     try {
+
+        const {id, token} = input
+
+        if(!id){
+            throw new IdNotFound()
+        }
+
+        if(!token){
+            throw new TokenNotFound()
+        }
+
+        
+        const data = tokenGenerator.tokenData(token)
+
+        if (!data.id) {
+            throw new Unauthorized();
+        }
+
         const result = await recipeBaseDataBase.getRecipeById(id)
-        return result           
+        const resultOutput:RecipeOutputDTO[] = result.map((p) => {
+            return {
+                id: p.id,
+                title: p.title,
+                description: p.description,
+                createdAt: p.created_at,
+                authorId: p.author_id
+            }
+        })
+
+        return resultOutput               
+                 
     } catch (error:any) {
         throw new CustomError(400, error.message);
     }
 } 
 
-public deleteRecipe = async(input: DeleteRecipeInputDTO) => {
+public deleteRecipe = async(input: DeleteRecipeInputDTO):Promise<void> => {
     try {
         const {id, token} = input
        
@@ -144,7 +208,7 @@ public deleteRecipe = async(input: DeleteRecipeInputDTO) => {
             throw new Unauthorized();
         }
 
-        const getRecipeById = await recipeBaseDataBase.getRecipeById(id)
+        const getRecipeById = await recipeBaseDataBase.filterRecipeById(id)
 
         if (!getRecipeById){
             throw new RecipeNotFound()            

@@ -1,5 +1,5 @@
 import { CustomError } from "../error/CustomError";
-import { inputForgotPassword, user} from "../model/user";
+import { InputForgotPassword, user} from "../model/user";
 import { BaseDatabase } from "./BaseDataBase";
 
 export class UserDataBase extends BaseDatabase{
@@ -14,7 +14,7 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
-    public findUser = async(email: string) => {        
+    public findUser = async(email: string): Promise<user>  => {        
     try {        
     const result = await UserDataBase.connection(this.userTable).select("*")
     .where({email})
@@ -24,7 +24,7 @@ export class UserDataBase extends BaseDatabase{
     } 
 }
 
-    public UserProfile = async (id: string) => {
+    public userProfile = async (id: string) => {
         try {
          const result = await UserDataBase.connection(this.userTable).select("id", "name", "email")
          .where({id})
@@ -47,7 +47,7 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
-    public getAllUsers = async () => {
+    public getAllUsers = async (): Promise<user[]> => {
         try {
 
             const result = await UserDataBase.connection(this.userTable)
@@ -57,7 +57,7 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
-    public deleteUser = async (id:string) => {
+    public deleteUser = async (id:string):Promise<void> => {
         try {
             await UserDataBase.connection(this.userTable)
             .where({id})
@@ -67,7 +67,7 @@ export class UserDataBase extends BaseDatabase{
         }
     }
 
-    public forgotPassword = async (user: inputForgotPassword) => {
+    public forgotPassword = async (user: InputForgotPassword):Promise<void> => {
         try {
             await UserDataBase.connection(this.userTable)
             .where({id:user.id})
