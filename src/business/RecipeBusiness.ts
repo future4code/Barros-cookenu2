@@ -2,7 +2,7 @@ import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { AuthorIdNotFound, DescriptionNotFound, IdNotFound, RecipeNotAuthor, RecipeNotFound, TitleNotFound } from "../error/recipErros";
 import { TokenNotFound, Unauthorized } from "../error/userErrors";
-import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO, RecipeOutputDTO, RecipeFeedDTO, RecipeInput} from "../model/recipe";
+import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO, RecipeOutputDTO, RecipeFeedDTO, RecipeInput, recipeDTO} from "../model/recipe";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenGenerator } from "../services/TokenGenerator";
 import {UserRole } from "../model/user"
@@ -222,6 +222,38 @@ public deleteRecipe = async(input: DeleteRecipeInputDTO):Promise<void> => {
 
     } catch (error:any) {
         throw new CustomError(400, error.message); 
+    }
+}
+
+public getAllRecipes = async(token:string):Promise<recipeDTO[]> => {
+    try {
+
+        if(!token){
+            throw new TokenNotFound()
+        }
+
+        const data = tokenGenerator.tokenData(token)
+        
+        if(!data.id){
+            throw new Unauthorized()
+        }
+
+        const result = await recipeBaseDataBase.getAllRecipes()
+
+        const resultOutput: RecipeOutputDTO[] = result.map((p) => {
+            return {
+                id: p.id,
+                title: p.title,
+                description: p.description,
+                createdAt: p.created_at,
+                authorId: p.author_id
+            }
+        })
+
+
+        return resultOutput
+    } catch (error:any) {
+        throw new CustomError(400, error.message)
     }
 }
 

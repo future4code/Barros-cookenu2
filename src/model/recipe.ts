@@ -5,6 +5,17 @@ export type recipe = {
     authorId: string,
 }
 
+export type recipeDTO = {
+    id: string,
+    title: string,
+    description: string,
+    createdAt: string,
+    authorId: string
+}
+
+
+
+
 export interface RecipeInputDTO {
     title: string,
     description: string,

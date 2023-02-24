@@ -1,5 +1,5 @@
 import { CustomError } from "../error/CustomError";
-import {EditRecipeInput, recipe, RecipeDTO, RecipeFeed } from "../model/recipe";
+import {EditRecipeInput, recipe, recipeDTO, RecipeDTO, RecipeFeed, RecipeOutputDTO } from "../model/recipe";
 import { BaseDatabase } from "./BaseDataBase";
 
 export class RecipeBaseDataBase extends BaseDatabase {
@@ -94,6 +94,15 @@ export class RecipeBaseDataBase extends BaseDatabase {
             .delete()            
         } catch (error:any) {
             throw new CustomError(400, error.message); 
+        }
+    }
+
+    public getAllRecipes = async ():Promise<RecipeDTO[]>  => {
+        try {
+            const result = await RecipeBaseDataBase.connection(this.recipeTable)
+            return result            
+        } catch (error:any) {
+            throw new CustomError(400, error.message);
         }
     }
 

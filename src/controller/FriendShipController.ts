@@ -14,7 +14,7 @@ export class FriendShipController {
             
         await friendShipBusiness.addFriend(input)
 
-        res.status(201).send({message: "friendship created!"})
+        res.status(201).send({message: "Following friend!"})
             
         } catch (error:any) {
             res.status(error.statusCode || 400).send(error.message || error.sqlMessage)

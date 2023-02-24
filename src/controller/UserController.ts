@@ -107,7 +107,7 @@ export class UserController {
         
         await userBusiness.forgotPassword(input)
 
-        res.status(200).send({message: 'password changed successfully'})
+        res.status(200).send({message: 'Password changed successfully'})
 
     } catch (error: any) {
     res.status(error.statusCode || 400).send(error.message || error.sqlMessage)  
