@@ -13,13 +13,17 @@ export type recipeDTO = {
     authorId: string
 }
 
-
-
-
 export interface RecipeInputDTO {
     title: string,
     description: string,
     authorId: string,
+    token: string
+}
+
+
+export interface RecipeInputController {
+    title: string,
+    description: string,
     token: string
 }
 

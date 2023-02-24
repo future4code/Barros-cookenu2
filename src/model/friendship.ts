@@ -18,6 +18,5 @@ export interface FriendsInputDTO {
 
 
 export interface FriendsFeedInput {
-    id: string,
-    token: string
+     token: string
 }

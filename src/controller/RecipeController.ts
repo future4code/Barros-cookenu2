@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { RecipeBusiness } from "../business/RecipeBusiness";
 import { FriendsFeedInput } from "../model/friendship";
-import {DeleteRecipeInputDTO, EditRecipeInputDTO, RecipeInput, RecipeInputDTO } from "../model/recipe";
+import {DeleteRecipeInputDTO, EditRecipeInputDTO, RecipeInput, RecipeInputController} from "../model/recipe";
 
 
 const recipeBusiness = new RecipeBusiness()
@@ -9,10 +9,9 @@ export class RecipeController {
     
     public createRecipe = async (req: Request, res: Response):Promise<void> => {
         try {
-            const input: RecipeInputDTO = {
+            const input: RecipeInputController = {
                 title: req.body.title,
-                description: req.body.description,
-                authorId: req.body.authorId,
+                description: req.body.description,                
                 token: req.headers.authorization as string
             }
             
@@ -30,10 +29,8 @@ export class RecipeController {
     public friendsFeed = async(req: Request, res: Response): Promise<void> => {
         try {   
             const input: FriendsFeedInput = {
-                id: req.params.id as string,
                 token: req.headers.authorization as string
             }
-
             const result = await recipeBusiness.friendsFeed(input)
 
             res.status(200).send(result)
