@@ -2,7 +2,7 @@ import { RecipeBaseDataBase } from "../data/RecipeBaseDataBase";
 import { CustomError } from "../error/CustomError";
 import { AuthorIdNotFound, DescriptionNotFound, IdNotFound, RecipeNotAuthor, RecipeNotFound, TitleNotFound } from "../error/recipErros";
 import { TokenNotFound, Unauthorized } from "../error/userErrors";
-import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO, RecipeOutputDTO, RecipeFeedDTO, RecipeInput, recipeDTO} from "../model/recipe";
+import { EditRecipeInputDTO, recipe, RecipeInputDTO, EditRecipeInput, DeleteRecipeInputDTO, RecipeOutputDTO, RecipeFeedDTO, RecipeInput, recipeDTO, RecipeInputController} from "../model/recipe";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenGenerator } from "../services/TokenGenerator";
 import {UserRole } from "../model/user"
@@ -14,10 +14,10 @@ const tokenGenerator = new TokenGenerator()
 
 export class RecipeBusiness {
  
-    public createRecipe = async (input: RecipeInputDTO):Promise<void> => {
+    public createRecipe = async (input: RecipeInputController):Promise<void> => {
     try {
 
-        const {title, description, authorId, token} = input
+        const {title, description, token} = input
 
                 
         if(!title){
@@ -28,18 +28,16 @@ export class RecipeBusiness {
           throw new DescriptionNotFound()  
         }
 
-        if(!authorId){ 
-            throw new AuthorIdNotFound()
-        }
-
+        
         if(!token){
             throw new TokenNotFound()
         }
 
         const data = tokenGenerator.tokenData(token)
+        const authorId = data.id
                   
         
-        if(!data.id){
+        if(!authorId){
             throw new Unauthorized()
         }
 
@@ -65,18 +63,16 @@ export class RecipeBusiness {
  public friendsFeed =async (input:FriendsFeedInput):Promise<RecipeFeedDTO[]> => {
     try {
 
-        const {id,token} = input
+        const {token} = input
 
-    if(!id){
-        throw new IdNotFound()
-    }
+    
 
     if(!token){
         throw new TokenNotFound()
     }
 
     const data = tokenGenerator.tokenData(token)
-              
+    const id = data.id         
     
     if(!data.id){
         throw new Unauthorized()
@@ -124,7 +120,7 @@ export class RecipeBusiness {
             throw new RecipeNotFound()            
         }
 
-        if (data.role.toUpperCase() === UserRole.NORMAL && data.id !== getRecipeById.author_id){
+        if (data.id !== getRecipeById.author_id){
             throw new RecipeNotAuthor()           
         }
 
